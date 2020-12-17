@@ -5,11 +5,15 @@ import (
 	"log"
 	"net/http"
 	service "sifiv/internal/core/services/module"
+	"sifiv/internal/infraestructure/sql"
+	repo "sifiv/internal/infraestructure/sql/module"
 	handler "sifiv/internal/infraestructure/web/go/module"
 )
 
 func AddModule() {
-	serviceModule := service.NewModuleService()
+	connection := sql.NewPostgresConnection()
+	repository := repo.NewModuleRepository(connection)
+	serviceModule := service.NewModuleService(repository)
 	adapterHandler := handler.NewModuleHandler(serviceModule)
 	http.HandleFunc("/modules", adapterHandler.GetAllModules)
 }

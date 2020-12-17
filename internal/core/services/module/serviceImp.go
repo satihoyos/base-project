@@ -6,14 +6,17 @@ import (
 )
 
 type moduleImp struct {
+	port.ModuleRepository
 }
 
-func NewModuleService() port.ModuleService {
-	return &moduleImp{}
+func NewModuleService(repo port.ModuleRepository) port.ModuleService {
+	return &moduleImp{repo}
 }
 
 func (ms *moduleImp) GeAll() []domain.Module {
-	modules := []domain.Module{
+	modules := ms.Get()
+
+	/*modules := []domain.Module{
 		domain.Module{
 			Code:        "code 1",
 			Description: "description 1",
@@ -24,6 +27,6 @@ func (ms *moduleImp) GeAll() []domain.Module {
 			Description: "description 2",
 			State:       "state 2",
 		},
-	}
+	}*/
 	return modules
 }
