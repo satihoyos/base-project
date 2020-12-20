@@ -17,6 +17,10 @@ func (ms *moduleImp) GeAll() []domain.Module {
 	return ms.port.Get()
 }
 
+func (ms *moduleImp) GetByCode(code string)domain.Module{
+	return ms.port.GetByCode(code)
+}
+
 func (ms *moduleImp) Save(module domain.Module) error {
 	//TODO validar datos
 	//TODO manejar mejor el error se esta ignorando 

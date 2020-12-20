@@ -5,6 +5,7 @@ import (
 	"sifiv/internal/core/domain"
 	repo "sifiv/internal/core/ports/module"
 	adapter "sifiv/internal/infraestructure/sql"
+	"fmt"
 )
 
 //TODO manejar transaccionalidad
@@ -51,6 +52,39 @@ func (mr moduleRepoImp) Get() (modules []domain.Module) {
 	}
 
 	return modules
+}
+
+func (mr moduleRepoImp) GetByCode(code string) (module domain.Module) {
+	
+	q := `SELECT
+			modulo_codigo, modulo_descripcion, modulo_estado
+		 FROM modulo WHERE modulo_codigo = ($1)
+		`
+	db := mr.connection.Get()
+	defer db.Close()
+	rows, err := db.Query(q, code)
+
+	if err != nil {		
+		fmt.Println(err)
+		return 
+	}
+
+	defer rows.Close()
+	for rows.Next() {
+		
+		err = rows.Scan(
+			&module.Code,
+			&module.Description,
+			&module.State,
+		)
+
+		if err != nil {
+			fmt.Println(err)
+			return
+		}		
+	}
+
+	return module
 }
 
 func (mr moduleRepoImp) Save(module domain.Module) error {	

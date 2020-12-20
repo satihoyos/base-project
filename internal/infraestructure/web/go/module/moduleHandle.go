@@ -7,13 +7,22 @@ import (
 	handler "sifiv/internal/infraestructure/web/adapter/module"
 	"sifiv/internal/core/domain"
 	"fmt"
+	"strings"
 )
 
-func (mh *moduleHanlder) GetAllModules(w *http.ResponseWriter, r *http.Request) {
+func (mh *moduleHanlder) GetAllModules(w *http.ResponseWriter, r *http.Request) {	
 	modules := mh.GeAll()
 	(*w).Header().Set("Content-Type", "application/json")
 	json.NewEncoder(*w).Encode(modules)
 }
+
+func (mh *moduleHanlder) Get(w *http.ResponseWriter, r *http.Request) {
+	//TODO mejorar este código, ver de donde sacar la variable directa
+	urlDivided := strings.Split(r.URL.Path,"/modules/")
+	module := mh.GetByCode(urlDivided[1])
+	(*w).Header().Set("Content-Type", "application/json")
+	json.NewEncoder(*w).Encode(module)
+} 
 
 func (mh *moduleHanlder)SaveModule(w *http.ResponseWriter, r *http.Request){
 	var module domain.Module
