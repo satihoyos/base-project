@@ -29,3 +29,8 @@ func (ms *moduleImp) Save(module domain.Module) error {
 
 	return nil
 }
+
+func (ms *moduleImp)Edit(module domain.Module)  {
+	ms.port.Edit(module)
+	
+}

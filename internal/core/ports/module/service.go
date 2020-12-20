@@ -6,4 +6,5 @@ type ModuleService interface {
 	GeAll() []domain.Module
 	Save(domain.Module) error
 	GetByCode(string)domain.Module
+	Edit(domain.Module)
 }

@@ -115,3 +115,21 @@ func (mr moduleRepoImp) Save(module domain.Module) error {
 
 	return nil
 }
+
+func (mr moduleRepoImp) Edit(module domain.Module){
+	q := `UPDATE 
+			modulo 
+			SET modulo_descripcion = ($1), modulo_estado = ($2)
+			WHERE modulo_codigo = ($3)`
+
+	db := mr.connection.Get()
+	defer db.Close()
+
+	_, err := db.Exec(q, module.Description, module.State,  module.Code)
+
+	if err != nil {
+		fmt.Println(err)
+		return 
+	}
+
+}

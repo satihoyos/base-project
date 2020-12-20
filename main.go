@@ -21,18 +21,16 @@ func moduleHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 		case "GET":manageGetURL(&w,r, adapterHandler)
 		case "POST":adapterHandler.SaveModule(&w,r)
+		case "PUT":adapterHandler.EditModule(&w,r)
 	}
 }
 
 func manageGetURL(w *http.ResponseWriter, r *http.Request,adapterHandler handlerModule.ModuleHandler){	
-	fmt.Printf("URL: %s", r.URL.Path)
-	fmt.Println("")
-
 	urlDivided := strings.Split(r.URL.Path,"/modules/")
 	if len(urlDivided[1]) > 1{
 		//TODO get id 
 		//TODO MANAGE EDIT		
-		adapterHandler.Get(w,r)		
+		adapterHandler.GetModule(w,r)		
 	}else{
 		adapterHandler.GetAllModules(w,r)
 	}	
