@@ -6,27 +6,22 @@ import (
 )
 
 type moduleImp struct {
-	port.ModuleRepository
+	port port.ModuleRepository
 }
 
 func NewModuleService(repo port.ModuleRepository) port.ModuleService {
-	return &moduleImp{repo}
+	return &moduleImp{port: repo}
 }
 
 func (ms *moduleImp) GeAll() []domain.Module {
-	modules := ms.Get()
+	return ms.port.Get()
+}
 
-	/*modules := []domain.Module{
-		domain.Module{
-			Code:        "code 1",
-			Description: "description 1",
-			State:       "state 1",
-		},
-		domain.Module{
-			Code:        "code 2",
-			Description: "description 2",
-			State:       "state 2",
-		},
-	}*/
-	return modules
+func (ms *moduleImp) Save(module domain.Module) error {
+	//TODO validar datos
+	//TODO manejar mejor el error se esta ignorando 
+	//TODO validar si existe el código en la tabla
+	_ = ms.port.Save(module)
+
+	return nil
 }
